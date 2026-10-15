@@ -11,18 +11,30 @@ pipeline {
         }
         stage('代码规范检查 flake8') {
             steps {
-                bat "${env.PYTHON_PATH} -m pip install flake8"
-                bat "${env.PYTHON_PATH} -m flake8 app.py tests/test_app.py"
+                bat '''
+set PYTHONUTF8=1
+${env.PYTHON_PATH} -m pip install flake8
+'''
+                bat '''
+set PYTHONUTF8=1
+${env.PYTHON_PATH} -m flake8 app.py tests/test_app.py
+'''
             }
         }
         stage('安装依赖') {
             steps {
-                bat "${env.PYTHON_PATH} -m pip install -r requirements.txt"
+                bat '''
+set PYTHONUTF8=1
+${env.PYTHON_PATH} -m pip install -r requirements.txt
+'''
             }
         }
         stage('单元测试+覆盖率') {
             steps {
-                bat "${env.PYTHON_PATH} -m pytest tests/test_app.py --cov=app --cov-report=html"
+                bat '''
+set PYTHONUTF8=1
+${env.PYTHON_PATH} -m pytest tests/test_app.py --cov=app --cov-report=html
+'''
             }
         }
     }
